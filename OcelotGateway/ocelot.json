@@ -1,6 +1,17 @@
 {
-    "Routes": [],
-    "GlobalConfiguration": {
-        "BaseUrl": ""
-    }
+    "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/patients",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5050
+                }
+            ],
+            "UpstreamPathTemplate": "/patients",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+        }
+    ],
+    "GlobalConfiguration": {}
 }
