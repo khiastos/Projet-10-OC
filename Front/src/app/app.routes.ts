@@ -5,11 +5,11 @@ export const routes: Routes = [
     path: 'patients',
     loadChildren: () =>
       import('./features/patients/patients.routes')
-        .then(m => m.patientsRoutes)
+        .then(m => m.PATIENTS_ROUTES),
   },
   {
     path: '',
     redirectTo: 'patients',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];

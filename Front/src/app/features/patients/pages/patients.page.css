@@ -25,3 +25,11 @@
 .patients-table td:nth-child(6) {
   white-space: nowrap;
 }
+
+.row-clickable {
+  cursor: pointer;
+}
+
+.row-clickable:hover {
+  background-color: #f5f5f5;
+}

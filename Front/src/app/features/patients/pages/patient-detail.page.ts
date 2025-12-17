@@ -1,45 +1,41 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-
+import { ActivatedRoute } from '@angular/router';
 import { PatientsService } from '../services/patients.service';
 import { Patient } from '../models/patients.model';
 
 @Component({
-  selector: 'app-patients',
   standalone: true,
+  selector: 'app-patient-detail',
   imports: [CommonModule],
-  templateUrl: './patients.page.html',
-  styleUrls: ['./patients.page.css']
+  templateUrl: './patient-detail.page.html',
 })
-export class PatientsPage implements OnInit {
+export class PatientDetailPage implements OnInit {
 
-  patients: Patient[] = [];
+  patient?: Patient;
   loading = true;
 
   constructor(
+    private route: ActivatedRoute,
     private patientsService: PatientsService,
-    private router: Router,
-    // Obligé pour refresh la vue quand la liste charge
+    // Obligé pour refresh la vue quand le patient charge
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.patientsService.getAll().subscribe({
-      next: (patients) => {
-        this.patients = patients;
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.patientsService.getById(id).subscribe({
+      next: p => {
+        this.patient = p;
         this.loading = false;
+
         this.cdr.markForCheck();
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
         this.loading = false;
         this.cdr.markForCheck();
       }
     });
-  }
-
-  openPatient(id: number): void {
-    this.router.navigate(['/patients', id]);
   }
 }

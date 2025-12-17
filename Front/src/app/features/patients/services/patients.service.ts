@@ -3,16 +3,17 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Patient } from '../models/patients.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PatientsService {
-
-  private readonly apiUrl = '/api/patients';
+  private baseUrl = '/api/patients';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(this.apiUrl);
+    return this.http.get<Patient[]>(this.baseUrl);
+  }
+
+  getById(id: number): Observable<Patient> {
+    return this.http.get<Patient>(`${this.baseUrl}/${id}`);
   }
 }

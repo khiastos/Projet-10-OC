@@ -1,9 +1,16 @@
 import { Routes } from '@angular/router';
-import { PatientsPage } from './pages/patients.page';
 
-export const patientsRoutes: Routes = [
+export const PATIENTS_ROUTES: Routes = [
   {
     path: '',
-    component: PatientsPage
-  }
+    loadComponent: () =>
+      import('./pages/patients.page')
+        .then(m => m.PatientsPage),
+  },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./pages/patient-detail.page')
+        .then(m => m.PatientDetailPage),
+  },
 ];

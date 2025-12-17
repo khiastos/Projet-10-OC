@@ -2,11 +2,9 @@
 
 @if (loading) {
   <p>Chargement...</p>
-}
-@else if (patients.length === 0) {
+} @else if (patients.length === 0) {
   <p>Aucun patient</p>
-}
-@else {
+} @else {
   <table class="patients-table">
     <thead>
       <tr>
@@ -18,10 +16,9 @@
         <th>Téléphone</th>
       </tr>
     </thead>
-
     <tbody>
       @for (p of patients; track p.id) {
-        <tr>
+        <tr class="row-clickable" (click)="openPatient(p.id)">
           <td>{{ p.lastName }}</td>
           <td>{{ p.firstName }}</td>
           <td>{{ p.dateOfBirth }}</td>
