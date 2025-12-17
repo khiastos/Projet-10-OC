@@ -9,6 +9,7 @@
                     "Port": 5050
                 }
             ],
+
             "UpstreamPathTemplate": "/patients",
             "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
         }

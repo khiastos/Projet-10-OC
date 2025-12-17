@@ -1,0 +1,27 @@
+.patients-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.patients-table th {
+  text-align: left;
+  padding: 10px;
+  background: #f4f6f8;
+  border-bottom: 2px solid #ddd;
+}
+
+.patients-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.patients-table tr:hover {
+  background: #fafafa;
+}
+
+.patients-table td:nth-child(3),
+.patients-table td:nth-child(6) {
+  white-space: nowrap;
+}
