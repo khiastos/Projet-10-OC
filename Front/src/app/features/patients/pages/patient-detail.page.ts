@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { PatientsService } from '../services/patients.service';
 import { Patient } from '../models/patients.model';
+import { Location } from '@angular/common';
+
 
 @Component({
   standalone: true,
@@ -19,8 +21,13 @@ export class PatientDetailPage implements OnInit {
     private route: ActivatedRoute,
     private patientsService: PatientsService,
     // Obligé pour refresh la vue quand le patient charge
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private location: Location
   ) {}
+
+  goBack(): void {
+  this.location.back();
+}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -37,5 +44,6 @@ export class PatientDetailPage implements OnInit {
         this.cdr.markForCheck();
       }
     });
+    
   }
 }
