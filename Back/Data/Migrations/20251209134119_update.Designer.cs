@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Back.Migrations
 {
-    [DbContext(typeof(LocalDbContext))]
+    [DbContext(typeof(PatientDbContext))]
     [Migration("20251209134119_update")]
     partial class update
     {

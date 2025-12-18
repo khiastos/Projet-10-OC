@@ -1,5 +1,19 @@
 {
+    // Port d'ocelot : 5148
+
     "Routes": [
+        {
+            "DownstreamPathTemplate": "/api/auth",
+            "DownstreamScheme": "https",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 44313
+                }
+            ],
+            "UpstreamPathTemplate": "/auth",
+            "UpstreamHttpMethod": [ "GET" ]
+        },
         {
             "DownstreamPathTemplate": "/api/patients",
             "DownstreamScheme": "http",
@@ -9,7 +23,6 @@
                     "Port": 5050
                 }
             ],
-
             "UpstreamPathTemplate": "/patients",
             "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
         }

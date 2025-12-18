@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Back.Data
 {
-    public class LocalDbContext : DbContext
+    public class PatientDbContext : DbContext
     {
-        public LocalDbContext(DbContextOptions<LocalDbContext> options) : base(options)
+        public PatientDbContext(DbContextOptions<PatientDbContext> options) : base(options)
         {
         }
 

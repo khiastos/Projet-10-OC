@@ -9,9 +9,9 @@ namespace Back.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        private readonly LocalDbContext _context;
+        private readonly PatientDbContext _context;
 
-        public PatientsController(LocalDbContext context)
+        public PatientsController(PatientDbContext context)
         {
             _context = context;
         }
