@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './patient-detail.page.html',
 })
+
 export class PatientDetailPage implements OnInit {
 
   patient?: Patient;
