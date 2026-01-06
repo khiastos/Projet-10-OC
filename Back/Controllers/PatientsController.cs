@@ -25,16 +25,16 @@ namespace Back.Controllers
 
         // GET: api/Patients/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patients>> GetPatients(int id)
+        public async Task<ActionResult<Patients>> GetPatient(int id)
         {
-            var patients = await _context.Patients.FindAsync(id);
+            var patient = await _context.Patients.FindAsync(id);
 
-            if (patients == null)
+            if (patient == null)
             {
                 return NotFound();
             }
 
-            return patients;
+            return patient;
         }
 
         // PUT: api/Patients/5

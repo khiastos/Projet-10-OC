@@ -7,13 +7,21 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddAuthentication("Basic")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthentificationHandler>(
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(
         "Basic", null
     );
 
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
+
+builder.Services
+    .AddAuthentication("BasicAuthentication")
+    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(
+        "BasicAuthentication", null
+    );
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

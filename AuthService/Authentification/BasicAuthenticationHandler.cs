@@ -9,9 +9,9 @@ using Microsoft.Extensions.Options;
 
 namespace AuthService.Authentification
 {
-    public class BasicAuthentificationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        public BasicAuthentificationHandler(
+        public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder)
@@ -63,18 +63,18 @@ namespace AuthService.Authentification
                 password
             );
 
-            if (result == PasswordVerificationResult.Failed)
-            {
-                return Task.FromResult(
-                    AuthenticateResult.Fail("Invalid password")
-                );
-            }
-
             // Pour pouvoir utiliser [Authorize] dans les contrôleurs, on doit créer des claims
-            var claims = new[]
+            var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.UserName!)
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
+
+            // Ajoute les rôles de l'utilisateur aux claims
+            foreach (var role in user.Roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             // On crée l'identité avec les claims et le schéma d'authentification
             var identity = new ClaimsIdentity(claims, Scheme.Name);

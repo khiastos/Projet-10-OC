@@ -5,15 +5,15 @@ import { Patient } from '../models/patients.model';
 
 @Injectable({ providedIn: 'root' })
 export class PatientsService {
-  private baseUrl = '/api/patients';
+  private apiUrl = '/api/patients';
 
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(this.baseUrl);
+    return this.http.get<Patient[]>(this.apiUrl);
   }
 
   getById(id: number): Observable<Patient> {
-    return this.http.get<Patient>(`${this.baseUrl}/${id}`);
+    return this.http.get<Patient>(`${this.apiUrl}/${id}`);
   }
 }
