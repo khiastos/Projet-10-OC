@@ -1,48 +1,46 @@
-using AuthService.Authentification;
-using Microsoft.AspNetCore.Authentication;
+using AuthService.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+var configuration = builder.Configuration;
 
-builder.Services.AddAuthentication("Basic")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(
-        "Basic", null
-    );
+// EF Core
+builder.Services.AddDbContext<AuthDbContext>(opt =>
+    opt.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAuthorization();
+// Identity Core + rôles (hash auto, gestion users)
+builder.Services.AddIdentityCore<IdentityUser>(i =>
+{
+    i.Password.RequiredLength = 8;
+    i.Password.RequireDigit = true;
+    i.Password.RequireNonAlphanumeric = true;
+    i.Password.RequireUppercase = true;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AuthDbContext>();
 
 builder.Services.AddControllers();
-
-builder.Services
-    .AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>(
-        "BasicAuthentication", null
-    );
-
-builder.Services.AddAuthorization();
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
+    app.MapOpenApi();
 }
 
 app.UseHttpsRedirection();
 
-app.UseRouting();
-
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
-
+// Seed les rôles et l'admin au démarrage
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
+}
 app.Run();

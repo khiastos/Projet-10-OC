@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientsService", "Back\Pat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotGateway", "OcelotGateway\OcelotGateway.csproj", "{152891EE-4230-381B-F7D0-2723AE9E54EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{40400F85-CFA9-4476-BE73-22CD5B8A7D11}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\AuthService.csproj", "{904E61D8-8CE8-4BF6-9930-A86FE8709B36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{152891EE-4230-381B-F7D0-2723AE9E54EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{152891EE-4230-381B-F7D0-2723AE9E54EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{152891EE-4230-381B-F7D0-2723AE9E54EC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{40400F85-CFA9-4476-BE73-22CD5B8A7D11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{40400F85-CFA9-4476-BE73-22CD5B8A7D11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40400F85-CFA9-4476-BE73-22CD5B8A7D11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{40400F85-CFA9-4476-BE73-22CD5B8A7D11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904E61D8-8CE8-4BF6-9930-A86FE8709B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904E61D8-8CE8-4BF6-9930-A86FE8709B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904E61D8-8CE8-4BF6-9930-A86FE8709B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904E61D8-8CE8-4BF6-9930-A86FE8709B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
