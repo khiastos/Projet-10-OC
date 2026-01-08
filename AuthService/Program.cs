@@ -1,6 +1,9 @@
+using System.Text;
 using AuthService.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +24,24 @@ builder.Services.AddIdentityCore<IdentityUser>(i =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AuthDbContext>();
 
+// JWT Bearer
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidateLifetime = true,
+        ValidIssuer = configuration["Jwt:Issuer"],
+        ValidAudience = configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+    };
+});
+
+// Service qui fabrique le token (util)
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
