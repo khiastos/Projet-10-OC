@@ -15,7 +15,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class LoginComponent {
   model: LoginModel = {
-    username: '',
+    email: '',
     password: ''
   };
 
@@ -35,18 +35,16 @@ login() {
   this.badCredentials = false;
 
   this.authService.login(this.model).subscribe({
-    next: () => {
+    next: (res) => {
+      localStorage.setItem('jwt', res.token); // 🔑
       this.router.navigate(['/patients']);
-      this.cdr.detectChanges();
     },
     error: () => {
       this.badCredentials = true;
-      this.cdr.detectChanges(); // <- IMPORTANT
+      this.cdr.detectChanges();
     }
   });
 }
-
-
   goBack() {
     this.router.navigate(['/patients']);
   }

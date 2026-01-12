@@ -3,21 +3,29 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { LoginModel } from "../models/login.model";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-    private readonly apiUrl = '/api/auth';
+  private readonly apiUrl = '/api/auth';
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    login(credentials: LoginModel): Observable<void> {
+  login(credentials: LoginModel): Observable<{ token: string }> {
+    return this.http.post<{ token: string }>(
+      `${this.apiUrl}/login`,
+      credentials
+    );
+  }
 
-        // btoa = encode le password en Base64 càd HTTP basic
-        const encoded = btoa(`${credentials.username}:${credentials.password}`);
+  logout(): void {
+    localStorage.removeItem('jwt');
+  }
 
-        const headers = new HttpHeaders({
-            Authorization: `Basic ${encoded}`
-        });
+  getToken(): string | null {
+    return localStorage.getItem('jwt');
+  }
 
-        return this.http.get<void>(this.apiUrl, { headers });
-    } 
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
 }
+

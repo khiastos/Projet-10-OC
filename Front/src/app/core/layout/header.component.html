@@ -1,5 +1,3 @@
-<header class="header">
-  @if (showLoginButton) {
-    <button (click)="goToLogin()">Connexion</button>
-  }
-</header>
+<button (click)="onAuthClick()">
+  {{ authService.isAuthenticated() ? 'Déconnexion' : 'Connexion' }}
+</button>
