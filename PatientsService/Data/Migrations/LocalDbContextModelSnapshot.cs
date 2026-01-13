@@ -22,7 +22,7 @@ namespace Back.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Back.Models.Patients", b =>
+            modelBuilder.Entity("Back.Models.Patient", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -46,9 +46,6 @@ namespace Back.Migrations
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OtherInfo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")

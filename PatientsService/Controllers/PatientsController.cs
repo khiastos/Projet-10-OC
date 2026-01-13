@@ -2,6 +2,7 @@
 using Back.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PatientsService.Models.DTOs;
 
 namespace Back.Controllers
 {
@@ -18,14 +19,14 @@ namespace Back.Controllers
 
         // GET: api/Patients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Patients>>> GetPatients()
+        public async Task<ActionResult<IEnumerable<Patient>>> GetAllPatients()
         {
             return await _context.Patients.ToListAsync();
         }
 
         // GET: api/Patients/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Patients>> GetPatient(int id)
+        public async Task<ActionResult<Patient>> GetPatient(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
 
@@ -39,64 +40,53 @@ namespace Back.Controllers
 
         // PUT: api/Patients/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPatients(int id, Patients patients)
+        public async Task<IActionResult> UpdatePatient(int id, UpdatePatientDTO dto)
         {
-            if (id != patients.Id)
-            {
-                return BadRequest();
-            }
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null) return NotFound();
 
-            _context.Entry(patients).State = EntityState.Modified;
+            patient.FirstName = dto.FirstName;
+            patient.LastName = dto.LastName;
+            patient.DateOfBirth = dto.DateOfBirth;
+            patient.Gender = dto.Gender;
+            patient.Address = dto.Address;
+            patient.PhoneNumber = dto.PhoneNumber;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PatientsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
         // POST: api/Patients
 
         [HttpPost]
-        public async Task<ActionResult<Patients>> PostPatients(Patients patients)
+        public async Task<ActionResult<Patient>> CreatePatient(CreatePatientDTO dto)
         {
-            _context.Patients.Add(patients);
+            var patient = new Patient
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                DateOfBirth = dto.DateOfBirth,
+                Gender = dto.Gender,
+                Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber
+            };
+
+            _context.Patients.Add(patient);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPatients), new { id = patients.Id }, patients);
+            return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
         }
 
         // DELETE: api/Patients/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePatients(int id)
+        public async Task<IActionResult> DeletePatient(int id)
         {
-            var patients = await _context.Patients.FindAsync(id);
-            if (patients == null)
-            {
-                return NotFound();
-            }
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null) return NotFound();
 
-            _context.Patients.Remove(patients);
+            _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
-
             return NoContent();
-        }
-
-        private bool PatientsExists(int id)
-        {
-            return _context.Patients.Any(e => e.Id == id);
         }
     }
 }

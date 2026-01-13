@@ -1,0 +1,57 @@
+<h2>Ajouter un patient</h2>
+
+<form class="patients">
+<!--[(ngModel)] liens de données bidirectionnels pour chaque champ du formulaire-->
+<input
+    type="text"
+    placeholder="Prénom"
+    [(ngModel)]="model.firstName"
+    name="firstName"
+    required
+  />
+
+<input
+    type="text"
+    placeholder="Nom"
+    [(ngModel)]="model.lastName"
+    name="lastName"
+    required
+  />
+
+<input
+    type="date"
+    [(ngModel)]="model.dateOfBirth"
+    name="dateOfBirth"
+    required
+  />
+
+<input
+    type="text"
+    placeholder="Genre"
+    [(ngModel)]="model.gender"
+    name="gender"
+    required 
+  />
+
+<input
+    type="text"
+    placeholder="Adresse"
+    [(ngModel)]="model.address"
+    name="address"
+    required
+  />
+
+<input
+    type="text"
+    placeholder="Numéro de téléphone"
+    [(ngModel)]="model.phoneNumber"
+    name="phoneNumber"
+    required
+  />
+
+<div class="actions">
+    <button (click)="save()">Enregistrer</button>
+    <button (click)="goBack()">← Retour</button>
+</div>
+
+</form>

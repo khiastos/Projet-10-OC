@@ -14,7 +14,7 @@
                 }
             ],
             "UpstreamPathTemplate": "/api/patients/{everything}",
-            "UpstreamHttpMethod": [ "GET" ]
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
         },
         {
             "DownstreamPathTemplate": "/api/auth/{everything}",

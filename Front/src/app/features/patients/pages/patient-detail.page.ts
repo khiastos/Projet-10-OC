@@ -12,7 +12,6 @@ import { Location } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './patient-detail.page.html',
 })
-
 export class PatientDetailPage implements OnInit {
 
   patient?: Patient;
@@ -21,23 +20,17 @@ export class PatientDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private patientsService: PatientsService,
-    // Obligé pour refresh la vue quand le patient charge
     private cdr: ChangeDetectorRef,
     private location: Location
   ) {}
-
-  goBack(): void {
-  this.location.back();
-}
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
     this.patientsService.getById(id).subscribe({
-      next: p => {
-        this.patient = p;
+      next: (patient: Patient) => {
+        this.patient = patient;
         this.loading = false;
-
         this.cdr.markForCheck();
       },
       error: () => {
@@ -45,6 +38,9 @@ export class PatientDetailPage implements OnInit {
         this.cdr.markForCheck();
       }
     });
-    
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 }

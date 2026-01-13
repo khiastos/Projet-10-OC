@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Back.Models
 {
-    public class Patients
+    public class Patient
     {
         public int Id { get; set; }
 
@@ -28,8 +28,5 @@ namespace Back.Models
 
         [DisplayName("Numéro de téléphone")]
         public string? PhoneNumber { get; set; }
-
-        [DisplayName("Autre(s) information(s)")]
-        public string? OtherInfo { get; set; }
     }
 }

@@ -5,27 +5,25 @@ import { LoginModel } from "../models/login.model";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly apiUrl = '/api/auth';
+  private readonly tokenKey = 'jwt';
 
   constructor(private http: HttpClient) {}
 
-  login(credentials: LoginModel): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(
-      `${this.apiUrl}/login`,
-      credentials
-    );
+  login(credentials: LoginModel) {
+    return this.http.post<{ token: string }>('/api/auth/login', credentials);
   }
 
   logout(): void {
-    localStorage.removeItem('jwt');
-  }
-
-  getToken(): string | null {
-    return localStorage.getItem('jwt');
+    localStorage.removeItem(this.tokenKey);
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    return !!localStorage.getItem(this.tokenKey);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
   }
 }
+
 

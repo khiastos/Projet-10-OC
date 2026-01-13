@@ -6,14 +6,11 @@ import { PatientsService } from '../services/patients.service';
 import { Patient } from '../models/patients.model';
 
 @Component({
-  selector: 'app-patients',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './patients.page.html',
-  styleUrls: ['./patients.page.css']
+  imports: [CommonModule]
 })
-export class PatientsPage implements OnInit {
-
+export class PatientsPage {
   patients: Patient[] = [];
   loading = true;
 
@@ -24,22 +21,43 @@ export class PatientsPage implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    this.patientsService.getAll().subscribe({
-      next: (patients) => {
-        this.patients = patients;
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: (err) => {
-        console.error(err);
-        this.loading = false;
-        this.cdr.markForCheck();
-      }
-    });
+  ngOnInit() {
+    this.loadPatients();
   }
 
-  openPatient(id: number): void {
+  loadPatients(): void {
+  this.loading = true;
+
+  this.patientsService.getAll().subscribe({
+    next: (patients: Patient[]) => {
+      this.patients = patients;
+      this.loading = false;
+      this.cdr.markForCheck();
+    },
+    error: () => {
+      this.loading = false;
+    }
+  });
+}
+  openPatient(id: number) {
     this.router.navigate(['/patients', id]);
   }
+
+  createPatient() {
+    this.router.navigate(['/patients/new']);
+  }
+
+  editPatient(id: number) {
+    this.router.navigate(['/patients/edit', id]);
+  }
+
+  deletePatient(id: number) {
+    if (!confirm('Supprimer ce patient ?')) return;
+
+    this.patientsService.delete(id).subscribe(() => {
+      this.loadPatients();
+    });
+  }
 }
+
+
