@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
 import { LoginModel } from '../models/login.model';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   standalone: true,
-  selector: 'app-login',
-  imports: [FormsModule, CommonModule , RouterLink],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-register',
+  imports: [FormsModule, CommonModule, RouterLink],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class LoginComponent {
-
+export class RegisterComponent {
   model: LoginModel = {
     email: '',
     password: ''
@@ -29,15 +27,14 @@ export class LoginComponent {
     private cdr: ChangeDetectorRef
   ) {}
 
-  login(): void {
+  register() {
 
-    this.authService.login(this.model).subscribe({
-      next: (res) => {
-        localStorage.setItem('jwt', res.token);
-        this.router.navigate(['/patients']);
+    this.authService.register(this.model).subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
       },
       error: () => {
-        this.errorMessage = 'Identifiants invalides';
+        this.errorMessage = 'Impossible de créer le compte';
         this.cdr.markForCheck();
       }
     });

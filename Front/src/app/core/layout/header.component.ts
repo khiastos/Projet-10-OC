@@ -5,7 +5,8 @@ import { AuthService } from '../../features/Identity/services/auth.service';
 @Component({
   selector: 'app-header',
   standalone: true,
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
   constructor(
@@ -15,13 +16,10 @@ export class HeaderComponent {
 
   onAuthClick() {
     if (this.authService.isAuthenticated()) {
-      // Déconnexion
       this.authService.logout();
-      this.router.navigate(['/login']);
-    } else {
-      // Connexion
-      this.router.navigate(['/login']);
     }
+    this.router.navigate(['/login']);
   }
 }
+
 

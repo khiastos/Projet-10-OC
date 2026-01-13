@@ -26,7 +26,6 @@ export class PatientFormPage {
   constructor(
     private patientsService: PatientsService,
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private location: Location,
   ) {}
 

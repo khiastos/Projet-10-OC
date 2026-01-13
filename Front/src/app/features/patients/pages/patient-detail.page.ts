@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
   selector: 'app-patient-detail',
   imports: [CommonModule],
   templateUrl: './patient-detail.page.html',
+  styleUrls: ['./patients.css']
 })
 export class PatientDetailPage implements OnInit {
 

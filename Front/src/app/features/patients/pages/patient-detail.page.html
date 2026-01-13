@@ -7,16 +7,39 @@
   <p>Patient introuvable</p>
 }
 @else {
-  <ul>
-    <li><strong>Nom :</strong> {{ patient.lastName }}</li>
-    <li><strong>Prénom :</strong> {{ patient.firstName }}</li>
-    <li><strong>Date de naissance :</strong> {{ patient.dateOfBirth }}</li>
-    <li><strong>Genre :</strong> {{ patient.gender }}</li>
-    <li><strong>Adresse :</strong> {{ patient.address }}</li>
-    <li><strong>Téléphone :</strong> {{ patient.phoneNumber }}</li>
-  </ul>
-}
-<button type="button" (click)="goBack()">
-  ← Retour
-</button>
+  <div class="patients patient-details">
+    <div class="field">
+      <label>Prénom</label>
+      <div class="value">{{ patient.firstName }}</div>
+    </div>
 
+    <div class="field">
+      <label>Nom</label>
+      <div class="value">{{ patient.lastName }}</div>
+    </div>
+
+    <div class="field">
+      <label>Date de naissance</label>
+      <div class="value">{{ patient.dateOfBirth }}</div>
+    </div>
+
+    <div class="field">
+      <label>Genre</label>
+      <div class="value">{{ patient.gender }}</div>
+    </div>
+
+    <div class="field">
+      <label>Adresse</label>
+      <div class="value">{{ patient.address }}</div>
+    </div>
+
+    <div class="field">
+      <label>Téléphone</label>
+      <div class="value">{{ patient.phoneNumber }}</div>
+    </div>
+
+    <div class="actions">
+      <button type="button" (click)="goBack()">← Retour</button>
+    </div>
+  </div>
+}

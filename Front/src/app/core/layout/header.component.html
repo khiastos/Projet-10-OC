@@ -1,3 +1,7 @@
-<button (click)="onAuthClick()">
-  {{ authService.isAuthenticated() ? 'Déconnexion' : 'Connexion' }}
-</button>
+<header class="app-header">
+  <h1>MédiLab</h1>
+
+  <button class="auth-button" (click)="onAuthClick()">
+    {{ authService.isAuthenticated() ? 'Déconnexion' : 'Connexion' }}
+  </button>
+</header>

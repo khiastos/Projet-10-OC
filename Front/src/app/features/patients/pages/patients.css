@@ -2,25 +2,35 @@
 
 .patients-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+  max-width: 1100px;
+  margin-top: 1.5rem;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: 14px;
+  background: #fff;
 }
 
 .patients-table th {
   text-align: left;
-  padding: 10px;
+  padding: 14px 16px;
   background: #f4f6f8;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid #dcdfe3;
+  font-weight: 600;
+  color: #333;
 }
 
 .patients-table td {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  padding: 14px 16px;
+  border-bottom: 1px solid #eceff3;
+  vertical-align: middle;
+}
+
+.patients-table tr:last-child td {
+  border-bottom: none;
 }
 
 .patients-table tr:hover {
-  background: #fafafa;
+  background: #fafbfd;
 }
 
 .patients-table td:nth-child(3),
@@ -33,7 +43,7 @@
 }
 
 .row-clickable:hover {
-  background-color: #f5f5f5;
+  background-color: #f5f7fa;
 }
 
 
@@ -41,31 +51,83 @@
 
 form.patients {
   max-width: 520px;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 form.patients input {
   width: 100%;
-  padding: 8px 10px;
+  padding: 10px 12px;
   font-size: 14px;
   box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form.patients input:focus {
+  outline: none;
+  border-color: #888;
 }
 
 .patient-form input[type="date"] {
-  padding-right: 8px;
+  padding-right: 10px;
 }
 
 .patient-form button {
   padding: 8px 14px;
   font-size: 14px;
   cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #f4f6f8;
+}
+
+.patient-form button:hover {
+  background: #e9ecf0;
 }
 
 form.patients .actions {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 14px;
 }
+
+/* détails patient */
+
+.patient-details {
+  max-width: 520px; 
+  margin-top: 2rem;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.patient-details .field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patient-details label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.patient-details .value {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9fafb;
+  font-size: 14px;
+}
+

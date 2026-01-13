@@ -8,7 +8,8 @@ import { Patient } from '../models/patients.model';
 @Component({
   standalone: true,
   templateUrl: './patients.page.html',
-  imports: [CommonModule]
+  imports: [CommonModule],
+  styleUrls: ['./patients.css'],
 })
 export class PatientsPage {
   patients: Patient[] = [];
@@ -51,6 +52,7 @@ export class PatientsPage {
     this.router.navigate(['/patients/edit', id]);
   }
 
+  // Ouvre un popup de confirmation avant de supprimer
   deletePatient(id: number) {
     if (!confirm('Supprimer ce patient ?')) return;
 

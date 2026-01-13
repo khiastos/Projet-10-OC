@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from "rxjs";
 import { LoginModel } from "../models/login.model";
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +9,14 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(credentials: LoginModel) {
-    return this.http.post<{ token: string }>('/api/auth/login', credentials);
+    return this.http.post<{ token: string }>(
+      '/api/auth/login',
+      credentials
+    );
+  }
+
+  register(credentials: LoginModel) {
+    return this.http.post('/api/auth/register', credentials);
   }
 
   logout(): void {
@@ -25,5 +31,3 @@ export class AuthService {
     return localStorage.getItem(this.tokenKey);
   }
 }
-
-

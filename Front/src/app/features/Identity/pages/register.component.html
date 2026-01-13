@@ -1,8 +1,8 @@
-<div class="login-page">
-  <div class="login-card">
-    <h2>Connexion</h2>
+<div class="register-page">
+  <div class="register-card">
+    <h2>Créer un compte</h2>
 
-    <form (ngSubmit)="login()">
+    <form (ngSubmit)="register()">
       <label>
         Identifiant
         <input
@@ -31,11 +31,11 @@
 
       <div class="actions">
         <button type="submit">
-          Se connecter
+          Créer un compte
         </button>
 
-        <button type="button" routerLink="/register">
-          Créer un compte
+        <button type="button" routerLink="/login">
+          Se connecter
         </button>
       </div>
     </form>

@@ -8,8 +8,21 @@ export interface Patient {
   phoneNumber: string;
 }
 
-// Pour création (pas d'id)
-export type CreatePatientDto = Omit<Patient, 'id'>;
+// mes DTOs en back pour la création et la mise à jour des patients
+export interface CreatePatientDto {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  gender: string;
+  address?: string;
+  phoneNumber?: string;
+}
 
-// Pour update (id séparé)
-export type UpdatePatientDto = Partial<Omit<Patient, 'id'>>;
+export interface UpdatePatientDto {
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  gender: string;
+  address?: string;
+  phoneNumber?: string;
+}

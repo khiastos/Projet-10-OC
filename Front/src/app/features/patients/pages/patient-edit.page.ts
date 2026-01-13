@@ -13,9 +13,8 @@ import { UpdatePatientDto } from '../models/patients.model';
   styleUrls: ['./patients.css']
 })
 export class PatientEditPage {
-
   id!: number;
-  model: UpdatePatientDto = {};
+  model!: UpdatePatientDto;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,14 +24,14 @@ export class PatientEditPage {
     private cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
 
     this.patientsService.getById(this.id).subscribe(p => {
       this.model = {
         firstName: p.firstName,
         lastName: p.lastName,
-        dateOfBirth: p.dateOfBirth,
+        dateOfBirth: p.dateOfBirth.substring(0, 10), // Format YYYY-MM-DD
         gender: p.gender,
         address: p.address,
         phoneNumber: p.phoneNumber
@@ -41,13 +40,14 @@ export class PatientEditPage {
     });
   }
 
-  save(): void {
+  save() {
     this.patientsService.update(this.id, this.model).subscribe(() => {
       this.router.navigate(['/patients']);
     });
   }
-
-  goBack(): void {
+   goBack(): void {
     this.location.back();
   }
 }
+
+ 

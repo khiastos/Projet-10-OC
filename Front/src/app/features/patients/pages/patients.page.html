@@ -1,43 +1,59 @@
-<h2>Patients</h2>
+<section class="patients-page">
 
-<button (click)="createPatient()">Ajouter un patient</button>
+  <div class="patients-header">
+    <h2>Patients</h2>
 
-@if (loading) {
-  <p>Chargement...</p>
-}
-@else if (patients.length === 0) {
-  <p>Aucun patient</p>
-}
-@else {
-  <table class="patients-table">
-    <thead>
-      <tr>
-        <th>Nom</th>
-        <th>Prénom</th>
-        <th>Date</th>
-        <th>Genre</th>
-        <th>Adresse</th>
-        <th>Téléphone</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
+    <button class="primary" (click)="createPatient()">
+      Ajouter un patient
+    </button>
+  </div>
 
-    <tbody>
-      @for (p of patients; track p.id) {
-        <tr class="row-clickable">
-          <td (click)="openPatient(p.id)">{{ p.lastName }}</td>
-          <td (click)="openPatient(p.id)">{{ p.firstName }}</td>
-          <td (click)="openPatient(p.id)">{{ p.dateOfBirth }}</td>
-          <td (click)="openPatient(p.id)">{{ p.gender }}</td>
-          <td (click)="openPatient(p.id)">{{ p.address }}</td>
-          <td (click)="openPatient(p.id)">{{ p.phoneNumber }}</td>
-
-          <td>
-            <button (click)="editPatient(p.id)">Modifier</button>
-            <button (click)="deletePatient(p.id)">Supprimer</button>
-          </td>
+  @if (loading) {
+    <p>Chargement...</p>
+  }
+  @else if (patients.length === 0) {
+    <p>Aucun patient</p>
+  }
+  @else {
+    <table class="patients-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Date</th>
+          <th>Genre</th>
+          <th>Adresse</th>
+          <th>Téléphone</th>
+          <th>Actions</th>
         </tr>
-      }
-    </tbody>
-  </table>
-}
+      </thead>
+
+      <tbody>
+        @for (p of patients; track p.id) {
+          <tr class="row-clickable" (click)="openPatient(p.id)">
+
+            <td>{{ p.lastName }}</td>
+            <td>{{ p.firstName }}</td>
+            <td>{{ p.dateOfBirth }}</td>
+            <td>{{ p.gender }}</td>
+            <td>{{ p.address }}</td>
+            <td>{{ p.phoneNumber }}</td>
+
+            <td>
+              <button
+                (click)="editPatient(p.id); $event.stopPropagation()">
+                Modifier
+              </button>
+
+              <button
+                (click)="deletePatient(p.id); $event.stopPropagation()">
+                Supprimer
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+</section>
