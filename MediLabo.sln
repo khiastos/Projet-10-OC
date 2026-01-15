@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "AuthService\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientsService", "PatientsService\PatientsService.csproj", "{6EFC29D1-5FDA-AE2C-6B3E-A19E88D8C6B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesService", "NotesService\NotesService.csproj", "{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6EFC29D1-5FDA-AE2C-6B3E-A19E88D8C6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6EFC29D1-5FDA-AE2C-6B3E-A19E88D8C6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6EFC29D1-5FDA-AE2C-6B3E-A19E88D8C6B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

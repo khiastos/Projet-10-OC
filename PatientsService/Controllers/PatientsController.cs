@@ -1,5 +1,6 @@
 ﻿using Back.Data;
 using Back.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PatientsService.Models.DTOs;
@@ -8,6 +9,7 @@ namespace Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class PatientsController : ControllerBase
     {
         private readonly PatientDbContext _context;

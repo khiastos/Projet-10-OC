@@ -4,13 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/auth")]
-public class AuthController : ControllerBase
+public class AuthController(UserManager<IdentityUser> users, IJwtTokenService tokens) : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _users;
-    private readonly IJwtTokenService _tokens;
-
-    public AuthController(UserManager<IdentityUser> users, IJwtTokenService tokens)
-    { _users = users; _tokens = tokens; }
+    private readonly UserManager<IdentityUser> _userManager = users;
+    private readonly IJwtTokenService _jwtTokenService = tokens;
 
     public record RegisterDto(string Email, string Password);
     public record LoginDto(string Email, string Password);
@@ -25,10 +22,10 @@ public class AuthController : ControllerBase
             Email = dto.Email,
             EmailConfirmed = true
         };
-        var res = await _users.CreateAsync(user, dto.Password);
+        var res = await _userManager.CreateAsync(user, dto.Password);
         if (!res.Succeeded) return BadRequest(res.Errors.Select(e => e.Description));
 
-        await _users.AddToRoleAsync(user, "User");
+        await _userManager.AddToRoleAsync(user, "User");
 
         return Ok(new { user.Id, user.Email });
     }
@@ -37,15 +34,15 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginDto dto)
     {
-        var user = await _users.FindByEmailAsync(dto.Email);
+        var user = await _userManager.FindByEmailAsync(dto.Email);
 
         if (user is null) return Unauthorized("Identifiants invalides.");
 
-        var ok = await _users.CheckPasswordAsync(user, dto.Password);
+        var ok = await _userManager.CheckPasswordAsync(user, dto.Password);
         if (!ok) return Unauthorized("Identifiants invalides.");
 
-        var roles = await _users.GetRolesAsync(user);
-        var token = _tokens.Create(user, roles);
+        var roles = await _userManager.GetRolesAsync(user);
+        var token = _jwtTokenService.Create(user, roles);
         return Ok(new { token });
     }
 }
