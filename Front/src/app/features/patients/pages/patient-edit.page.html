@@ -1,23 +1,29 @@
 <h2>Modifier un patient</h2>
 
-<form class="patients">
+<!--permet de désactivé le bouton save quand les champs required ne sont pas remplis-->
+<form #f="ngForm" (ngSubmit)="save()" class="patients">
 <!--[(ngModel)] liens de données bidirectionnels pour chaque champ du formulaire-->
+<p class="form-hint">
+  Les champs marqués d’un * sont obligatoires.
+</p>
+
+<label class="required">Prénom*</label>
 <input
     type="text"
-    placeholder="Prénom"
     [(ngModel)]="model.firstName"
     name="firstName"
     required
   />
 
+<label class="required">Nom*</label>
 <input
     type="text"
-    placeholder="Nom"
     [(ngModel)]="model.lastName"
     name="lastName"
     required
   />
 
+<label class="required">Date de naissance*</label>
 <input
     type="date"
     [(ngModel)]="model.dateOfBirth"
@@ -25,33 +31,37 @@
     required
   />
 
-<input
-    type="text"
-    placeholder="Genre"
-    [(ngModel)]="model.gender"
-    name="gender"
-    required 
-  />
+<label class="required">Genre*</label>
+<select
+  [(ngModel)]="model.gender"
+  name="gender"
+  required
+>
+  <option value="" disabled>
+    Genre
+  </option>
+  <option value="Femme">Femme</option>
+  <option value="Homme">Homme</option>
+  <option value="Autre">Autre</option>
+</select>
 
+<label class="required">Adresse</label>
 <input
     type="text"
-    placeholder="Adresse"
     [(ngModel)]="model.address"
     name="address"
-    required
   />
 
+<label class="required">Numéro de téléphone</label>
 <input
     type="text"
-    placeholder="Numéro de téléphone"
     [(ngModel)]="model.phoneNumber"
     name="phoneNumber"
-    required
   />
 
 <div class="actions">
-    <button (click)="save()">Enregistrer</button>
-    <button (click)="goBack()">← Retour</button>
+  <button type="submit" [disabled]="f.invalid">Enregistrer</button>
+  <button (click)="goBack()">← Retour</button>
 </div>
 
 </form>

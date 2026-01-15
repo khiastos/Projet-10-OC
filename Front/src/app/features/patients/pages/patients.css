@@ -131,3 +131,24 @@ form.patients .actions {
   font-size: 14px;
 }
 
+form.patients select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+form.patients select:focus {
+  outline: none;
+  border-color: #888;
+}
+
+.form-hint {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+
