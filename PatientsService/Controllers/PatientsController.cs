@@ -1,6 +1,5 @@
 ﻿using Back.Data;
 using Back.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PatientsService.Models.DTOs;
@@ -9,7 +8,7 @@ namespace Back.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class PatientsController : ControllerBase
     {
         private readonly PatientDbContext _context;
@@ -40,26 +39,7 @@ namespace Back.Controllers
             return patient;
         }
 
-        // PUT: api/Patients/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePatient(int id, UpdatePatientDTO dto)
-        {
-            var patient = await _context.Patients.FindAsync(id);
-            if (patient == null) return NotFound();
-
-            patient.FirstName = dto.FirstName;
-            patient.LastName = dto.LastName;
-            patient.DateOfBirth = dto.DateOfBirth;
-            patient.Gender = dto.Gender;
-            patient.Address = dto.Address;
-            patient.PhoneNumber = dto.PhoneNumber;
-
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-
         // POST: api/Patients
-
         [HttpPost]
         public async Task<ActionResult<Patient>> CreatePatient(CreatePatientDTO dto)
         {
@@ -78,6 +58,25 @@ namespace Back.Controllers
 
             return CreatedAtAction(nameof(GetPatient), new { id = patient.Id }, patient);
         }
+
+        // PUT: api/Patients/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePatient(int id, UpdatePatientDTO dto)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+            if (patient == null) return NotFound();
+
+            patient.FirstName = dto.FirstName;
+            patient.LastName = dto.LastName;
+            patient.DateOfBirth = dto.DateOfBirth;
+            patient.Gender = dto.Gender;
+            patient.Address = dto.Address;
+            patient.PhoneNumber = dto.PhoneNumber;
+
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
 
         // DELETE: api/Patients/5
         [HttpDelete("{id}")]

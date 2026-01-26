@@ -4,22 +4,59 @@ using NotesService.Services;
 
 namespace NotesService.Controllers
 {
-    [ApiController]
-    [Route("notes")]
+    [Route("api/[controller]")]
+    [Controller]
+    //[Authorize(Roles = "Admin")]
+
     public class NotesController : ControllerBase
     {
-        private readonly NotesPatientService _notesService;
-
-        public NotesController(NotesPatientService notesService)
+        private readonly MongoDBService _mongoDBService;
+        public NotesController(MongoDBService mongoDBService)
         {
-            _notesService = notesService;
+            _mongoDBService = mongoDBService;
         }
 
+        // GET : api/notes/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PatientNote>> GetNoteById(string id)
+        {
+            var note = await _mongoDBService.GetByIdAsync(id);
+            if (note == null) return NotFound();
+            return Ok(note);
+        }
+
+        // GET : api/notes/patient/{id}
         [HttpGet("patient/{patientId}")]
-        public ActionResult<List<PatientNote>> GetNotesByPatientId(int patientId)
+        public async Task<ActionResult<PatientNote>> GetNoteByPatient(int patientId)
         {
-            var notes = _notesService.GetByPatientId(patientId);
-            return Ok(notes);
+            var note = await _mongoDBService.GetByPatientIdAsync(patientId);
+            if (note == null) return NotFound();
+            return Ok(note);
         }
+
+        // POST : api/notes
+        [HttpPost]
+        public async Task<IActionResult> CreateNote([FromBody] PatientNote note)
+        {
+            await _mongoDBService.CreateAsync(note);
+            return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
+        }
+
+        // PUT : api/notes/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateNote(string id, [FromBody] PatientNote note)
+        {
+            await _mongoDBService.UpdateAsync(id, note);
+            return NoContent();
+        }
+
+        // DELETE : api/notes/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteNote(string id)
+        {
+            await _mongoDBService.DeleteAsync(id);
+            return NoContent();
+        }
+
     }
 }

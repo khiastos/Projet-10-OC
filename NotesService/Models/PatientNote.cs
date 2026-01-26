@@ -7,12 +7,14 @@ namespace NotesService.Models
     {
         // La primary key pour MongoDB
         [BsonId]
-        public ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
-        // fait le lien entre le nom ici et celui donné dans MongoDB
+        // Fait référence à l'ID du patient dans le service Patients
         [BsonElement("patientId")]
         public int PatientId { get; set; }
 
+        // BsonElement = nom du champ dans la collection MongoDB
         [BsonElement("note")]
         public string Note { get; set; } = "";
     }
