@@ -2,6 +2,7 @@
     // Port Ocelot : 5148
     // Port AuthService : 5222
     // Port PatientService : 5050
+    // Port NoteService : 5241
 
     "Routes": [
         {
@@ -27,6 +28,18 @@
             ],
             "UpstreamPathTemplate": "/api/auth/{everything}",
             "UpstreamHttpMethod": [ "POST", "GET" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/notes/{everything}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5241
+                }
+            ],
+            "UpstreamPathTemplate": "/api/notes/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
         }
     ],
     "GlobalConfiguration": {

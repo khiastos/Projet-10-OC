@@ -1,45 +1,90 @@
 <h2>Détail du patient</h2>
 
-@if (loading) {
+@if (patientLoading) {
   <p>Chargement...</p>
 }
 @else if (!patient) {
   <p>Patient introuvable</p>
 }
 @else {
-  <div class="patients patient-details">
-    <div class="field">
-      <label>Prénom</label>
-      <div class="value">{{ patient.firstName }}</div>
+
+  <div class="patient-layout">
+
+    <!-- COLONNE GAUCHE : PATIENT -->
+    <div class="patient-column">
+      <div class="patients patient-details">
+
+        <div class="field">
+          <label>Prénom</label>
+          <div class="value">{{ patient.firstName }}</div>
+        </div>
+
+        <div class="field">
+          <label>Nom</label>
+          <div class="value">{{ patient.lastName }}</div>
+        </div>
+
+        <div class="field">
+          <label>Date de naissance</label>
+          <div class="value">{{ patient.dateOfBirth }}</div>
+        </div>
+
+        <div class="field">
+          <label>Genre</label>
+          <div class="value">{{ patient.gender }}</div>
+        </div>
+
+        <div class="field">
+          <label>Adresse</label>
+          <div class="value">{{ patient.address }}</div>
+        </div>
+
+        <div class="field">
+          <label>Téléphone</label>
+          <div class="value">{{ patient.phoneNumber }}</div>
+        </div>
+
+        <div class="actions">
+          <button type="button" (click)="goBack()">← Retour</button>
+        </div>
+
+      </div>
     </div>
 
-    <div class="field">
-      <label>Nom</label>
-      <div class="value">{{ patient.lastName }}</div>
+    <!-- COLONNE DROITE : NOTES -->
+    <div class="notes-column">
+      <h3>Notes</h3>
+      <!-- AJOUT NOTE -->
+  <div class="add-note">
+    <textarea
+      [(ngModel)]="newNoteContent"
+      placeholder="Ajouter une note..."
+      rows="4">
+    </textarea>
+
+    <button
+      type="button"
+      (click)="addNote()"
+      [disabled]="!newNoteContent.trim()">
+      Ajouter
+    </button>
+  </div>
+    @if (notesLoading) {
+    <p>Chargement des notes...</p>
+    }
+      @else if (!notes || notes.length === 0) {
+        <p>Aucune note</p>
+      }
+      @else {
+        <div class="notes-list">
+          @for (note of notes; track note.id) {
+            <div class="note-card">
+              {{ note.note }}
+            </div>
+          }
+        </div>
+      }
     </div>
 
-    <div class="field">
-      <label>Date de naissance</label>
-      <div class="value">{{ patient.dateOfBirth }}</div>
-    </div>
-
-    <div class="field">
-      <label>Genre</label>
-      <div class="value">{{ patient.gender }}</div>
-    </div>
-
-    <div class="field">
-      <label>Adresse</label>
-      <div class="value">{{ patient.address }}</div>
-    </div>
-
-    <div class="field">
-      <label>Téléphone</label>
-      <div class="value">{{ patient.phoneNumber }}</div>
-    </div>
-
-    <div class="actions">
-      <button type="button" (click)="goBack()">← Retour</button>
-    </div>
   </div>
 }

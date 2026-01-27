@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NotesService.Models;
+using NotesService.Models.DTOs;
 using NotesService.Services;
 
 namespace NotesService.Controllers
 {
     [Route("api/[controller]")]
     [Controller]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class NotesController : ControllerBase
     {
@@ -27,18 +29,24 @@ namespace NotesService.Controllers
 
         // GET : api/notes/patient/{id}
         [HttpGet("patient/{patientId}")]
-        public async Task<ActionResult<PatientNote>> GetNoteByPatient(int patientId)
+        public async Task<ActionResult<List<PatientNote>>> GetNoteByPatient(int patientId)
         {
-            var note = await _mongoDBService.GetByPatientIdAsync(patientId);
-            if (note == null) return NotFound();
-            return Ok(note);
+            var notes = await _mongoDBService.GetByPatientIdAsync(patientId);
+            return Ok(notes);
         }
 
         // POST : api/notes
         [HttpPost]
-        public async Task<IActionResult> CreateNote([FromBody] PatientNote note)
+        public async Task<IActionResult> CreateNote([FromBody] CreateNoteDTO dto)
         {
+            var note = new PatientNote
+            {
+                PatientId = dto.PatientId,
+                Note = dto.Note
+            };
+
             await _mongoDBService.CreateAsync(note);
+
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
         }
 
