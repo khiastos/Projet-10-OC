@@ -23,6 +23,11 @@ export class PatientDetailPage implements OnInit {
   patientLoading = true;
   notesLoading = true;
   newNoteContent = '';
+  // Pour l'édition des notes, null = pas d'édition en cours, string = id de la note en cours d'édition
+  editingNoteId: string | null = null;
+  // Pour stocker le contenu en cours d'édition
+  editingContent = '';
+
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +38,7 @@ export class PatientDetailPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // récupérer l'ID du patient depuis les paramètres de la route
+    // Récupérer l'ID du patient depuis les paramètres de la route
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
       this.patientsService.getById(id).subscribe({
@@ -64,20 +69,26 @@ export class PatientDetailPage implements OnInit {
 }
 
 addNote(): void {
+  // Trim = supprimer les espaces inutiles, vérifier que le contenu n'est pas vide
   if (!this.patient || !this.newNoteContent.trim()) {
     return;
   }
 
   const newNote: NoteCreate = {
+    // Vérifie l'id pour l'attribuer au bon patient
     patientId: this.patient.id,
+    // Nettoie le contenu de la note
     note: this.newNoteContent.trim()
   };
 
+  // Appel et déclenche le service pour créer la note
   this.notesService.create(newNote).subscribe({
     next: (createdNote) => {
-      // Ajout immédiat dans la liste
-      this.notes.unshift(createdNote);
+      // Ajoute la note créée à la liste locale
+      this.notes.push(createdNote);
+      // Réinitialise le champ de saisie et désactive le bouton "ajouter"
       this.newNoteContent = '';
+      this.cdr.detectChanges();
     },
     error: (err) => {
       console.error('Erreur ajout note', err);
@@ -85,6 +96,58 @@ addNote(): void {
   });
 }
 
+// Démarrer l'édition d'une note
+startEditNote(note: Note): void {
+  // Passe la note en mode édition
+  this.editingNoteId = note.id;
+  // Met le texte actuel dans la variable d'édition
+  this.editingContent = note.note;
+}
+
+cancelEditNote(): void {
+  this.editingNoteId = null;
+  this.editingContent = '';
+}
+
+saveNote(note: Note): void {
+  const content = this.editingContent.trim();
+  if (!content) return;
+
+  this.notesService.update(note.id, { note: content }).subscribe({
+    next: (updatedNote) => {
+      // Met à jour la note dans la liste locale
+      const index = this.notes.findIndex(n => n.id === note.id);
+      // Permet de vérifier si la note existe avant de la mettre à jour
+      if (index !== -1) {
+        // Stocke la note en local
+        this.notes[index] = updatedNote;
+      }
+      // Réinitialise l'état d'édition
+      this.editingNoteId = null;
+      this.editingContent = '';
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Erreur mise à jour note', err);
+    }
+  });
+}
+
+deleteNote(note: Note): void {
+  const confirmed = confirm('Êtes-vous sûr de vouloir supprimer cette note ?');
+  if (!confirmed) return;
+
+  this.notesService.delete(note.id).subscribe({
+    next: () => {
+      // Supprime la note de la liste locale 
+      this.notes = this.notes.filter(n => n.id !== note.id);
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Erreur suppression note', err);
+    }
+  });
+}
   goBack(): void {
     this.location.back();
   }

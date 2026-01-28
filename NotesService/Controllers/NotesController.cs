@@ -52,10 +52,17 @@ namespace NotesService.Controllers
 
         // PUT : api/notes/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNote(string id, [FromBody] PatientNote note)
+        public async Task<IActionResult> UpdateNote(string id, [FromBody] UpdateNoteDTO dto)
         {
-            await _mongoDBService.UpdateAsync(id, note);
-            return NoContent();
+            if (string.IsNullOrWhiteSpace(dto.Note))
+                return BadRequest("Une note ne peut pas être vide");
+
+            var updatedNote = await _mongoDBService.UpdateAsync(id, dto.Note);
+
+            if (updatedNote == null)
+                return NotFound();
+
+            return Ok(updatedNote);
         }
 
         // DELETE : api/notes/{id}

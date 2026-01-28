@@ -35,9 +35,19 @@ namespace NotesService.Services
             await _notes.InsertOneAsync(note);
         }
 
-        public async Task UpdateAsync(string id, PatientNote note)
+        public async Task<PatientNote?> UpdateAsync(string id, string note)
         {
-            await _notes.ReplaceOneAsync(n => n.Id == id, note);
+            // Crée un filtre pour trouver la note avec l'ID spécifié
+            var filter = Builders<PatientNote>.Filter.Eq(n => n.Id, id);
+
+            // Définit les mises à jour à appliquer à la note
+            var update = Builders<PatientNote>.Update
+                .Set(n => n.Note, note);
+
+            // Applique la mise à jour à la note correspondante dans la collection
+            await _notes.UpdateOneAsync(filter, update);
+
+            return await _notes.Find(filter).FirstOrDefaultAsync();
         }
         public async Task DeleteAsync(string id)
         {

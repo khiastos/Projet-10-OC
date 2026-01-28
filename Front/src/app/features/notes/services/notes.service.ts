@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Note, NoteCreate } from '../models/notes.model';
+import { Note, NoteCreate, NoteUpdate } from '../models/notes.model';
 
 // Service pour gérer les opérations CRUD des notes
 @Injectable({ providedIn: 'root' })
@@ -20,7 +20,7 @@ export class NotesService {
     return this.http.post<Note>(this.apiUrl, note);
     }
 
-    update(id: string, note: Note) {
+    update(id: string, note: NoteUpdate) {
     return this.http.put<Note>(`${this.apiUrl}/${id}`, note);
     }
 

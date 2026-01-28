@@ -1,5 +1,3 @@
-<h2>Détail du patient</h2>
-
 @if (patientLoading) {
   <p>Chargement...</p>
 }
@@ -7,6 +5,12 @@
   <p>Patient introuvable</p>
 }
 @else {
+  <h2 class="page-title">
+    Détail du patient
+    <span class="patient-name">
+      — {{ patient.firstName }} {{ patient.lastName }}
+    </span>
+  </h2>
 
   <div class="patient-layout">
 
@@ -45,7 +49,13 @@
         </div>
 
         <div class="actions">
-          <button type="button" (click)="goBack()">← Retour</button>
+          <button
+          type="button"
+          class="btn secondary"
+          (click)="goBack()">
+          ← Retour
+        </button>
+
         </div>
 
       </div>
@@ -54,36 +64,88 @@
     <!-- COLONNE DROITE : NOTES -->
     <div class="notes-column">
       <h3>Notes</h3>
-      <!-- AJOUT NOTE -->
-  <div class="add-note">
-    <textarea
-      [(ngModel)]="newNoteContent"
-      placeholder="Ajouter une note..."
-      rows="4">
-    </textarea>
 
-    <button
-      type="button"
-      (click)="addNote()"
-      [disabled]="!newNoteContent.trim()">
-      Ajouter
-    </button>
-  </div>
-    @if (notesLoading) {
-    <p>Chargement des notes...</p>
-    }
+      <!-- AJOUT NOTE -->
+      <div class="add-note">
+        <textarea
+          [(ngModel)]="newNoteContent"
+          placeholder="Ajouter une note..."
+          rows="4">
+        </textarea>
+
+        <button
+          type="button"
+          (click)="addNote()"
+          [disabled]="!newNoteContent.trim()">
+          Ajouter
+        </button>
+      </div>
+
+      @if (notesLoading) {
+        <p>Chargement des notes...</p>
+      }
       @else if (!notes || notes.length === 0) {
         <p>Aucune note</p>
       }
       @else {
         <div class="notes-list">
+
           @for (note of notes; track note.id) {
             <div class="note-card">
-              {{ note.note }}
+
+              <!-- MODE LECTURE -->
+              @if (editingNoteId !== note.id) {
+                <div class="note-content">
+                  <p>{{ note.note }}</p>
+                </div>
+
+                <div class="note-actions">
+                  <button
+                    class="btn edit"
+                    (click)="startEditNote(note)"
+                    [disabled]="editingNoteId !== null">
+                    Modifier
+                  </button>
+
+                  <button
+                    class="btn delete"
+                    (click)="deleteNote(note)">
+                    Supprimer
+                  </button>
+                </div>
+              }
+
+              <!-- MODE ÉDITION -->
+              @else {
+                <div class="note-content">
+                  <textarea
+                    [(ngModel)]="editingContent"
+                    rows="3">
+                  </textarea>
+                </div>
+
+                <div class="note-actions">
+                  <button
+                    class="btn save"
+                    (click)="saveNote(note)">
+                    Enregistrer
+                  </button>
+
+                  <button
+                    class="btn cancel"
+                    (click)="cancelEditNote()">
+                    Annuler
+                  </button>
+                </div>
+              }
+
             </div>
           }
+
         </div>
+
       }
+
     </div>
 
   </div>

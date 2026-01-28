@@ -3,8 +3,8 @@
   <div class="patients-header">
     <h2>Patients</h2>
 
-    <button class="primary" (click)="createPatient()">
-      Ajouter un patient
+    <button class="btn" (click)="createPatient()">
+      + Ajouter un patient
     </button>
   </div>
 
@@ -39,20 +39,27 @@
             <td>{{ p.address }}</td>
             <td>{{ p.phoneNumber }}</td>
 
-            <td>
-              <button
-                (click)="editPatient(p.id); $event.stopPropagation()">
-                Modifier
-              </button>
 
-              <button
-                (click)="deletePatient(p.id); $event.stopPropagation()">
-                Supprimer
-              </button>
+            <td class="actions-cell">
+              <div class="row-actions">
+                <button
+                  class="btn edit"
+                  (click)="editPatient(p.id); $event.stopPropagation()">
+                  Modifier
+                </button>
+
+                <button
+                  class="btn delete"
+                  (click)="deletePatient(p.id); $event.stopPropagation()">
+                  Supprimer
+                </button>
+              </div>
             </td>
+
           </tr>
         }
       </tbody>
+
     </table>
   }
 

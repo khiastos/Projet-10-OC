@@ -36,10 +36,22 @@ input {
 }
 
 button {
-  margin-top: 16px;
-  align-self: center;
-  padding: 8px 20px;
+  width: auto;
+  padding: 10px 16px;
+
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
 }
+
+button:hover {
+  background: #e9ecf0;
+}
+
 
 .error {
   margin-top: 10px;
@@ -51,4 +63,9 @@ button {
   position: fixed;
   bottom: 20px;
   left: 20px;
+}
+
+
+.btn:hover {
+  background: #e9ecf0;
 }

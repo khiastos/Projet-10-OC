@@ -31,7 +31,7 @@ export class PatientEditPage {
       this.model = {
         firstName: p.firstName,
         lastName: p.lastName,
-        dateOfBirth: p.dateOfBirth.substring(0, 10), // Format YYYY-MM-DD
+        dateOfBirth: p.dateOfBirth.substring(0, 10),
         gender: p.gender,
         address: p.address,
         phoneNumber: p.phoneNumber
