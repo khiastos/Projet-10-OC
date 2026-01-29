@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatientsService", "Patients
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NotesService", "NotesService\NotesService.csproj", "{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RiskAssessmentService", "RiskAssessmentService\RiskAssessmentService.csproj", "{D6E0377C-602D-479F-A4C2-BF8B4CED93A6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4660B6B4-7EDD-41E5-8B83-21D4FDC361DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6E0377C-602D-479F-A4C2-BF8B4CED93A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6E0377C-602D-479F-A4C2-BF8B4CED93A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6E0377C-602D-479F-A4C2-BF8B4CED93A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6E0377C-602D-479F-A4C2-BF8B4CED93A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

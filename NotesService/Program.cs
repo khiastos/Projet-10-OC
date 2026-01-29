@@ -11,10 +11,11 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-// Configuration de MongoDB
+// MongoDB
 builder.Services.Configure<MongoDBSettings>(builder.Configuration.GetSection("MongoDB"));
-builder.Services.AddSingleton<MongoDBService>();
+builder.Services.AddSingleton<NoteService>();
 
+// JWT 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(opt =>
 {

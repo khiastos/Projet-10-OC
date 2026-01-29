@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NotesService.Models;
 using NotesService.Models.DTOs;
 using NotesService.Services;
@@ -8,21 +7,21 @@ namespace NotesService.Controllers
 {
     [Route("api/[controller]")]
     [Controller]
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class NotesController : ControllerBase
     {
-        private readonly MongoDBService _mongoDBService;
-        public NotesController(MongoDBService mongoDBService)
+        private readonly NoteService _noteService;
+        public NotesController(NoteService noteService)
         {
-            _mongoDBService = mongoDBService;
+            _noteService = noteService;
         }
 
         // GET : api/notes/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<PatientNote>> GetNoteById(string id)
         {
-            var note = await _mongoDBService.GetByIdAsync(id);
+            var note = await _noteService.GetByIdAsync(id);
             if (note == null) return NotFound();
             return Ok(note);
         }
@@ -31,7 +30,7 @@ namespace NotesService.Controllers
         [HttpGet("patient/{patientId}")]
         public async Task<ActionResult<List<PatientNote>>> GetNoteByPatient(int patientId)
         {
-            var notes = await _mongoDBService.GetByPatientIdAsync(patientId);
+            var notes = await _noteService.GetByPatientIdAsync(patientId);
             return Ok(notes);
         }
 
@@ -45,7 +44,7 @@ namespace NotesService.Controllers
                 Note = dto.Note
             };
 
-            await _mongoDBService.CreateAsync(note);
+            await _noteService.CreateAsync(note);
 
             return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
         }
@@ -57,7 +56,7 @@ namespace NotesService.Controllers
             if (string.IsNullOrWhiteSpace(dto.Note))
                 return BadRequest("Une note ne peut pas être vide");
 
-            var updatedNote = await _mongoDBService.UpdateAsync(id, dto.Note);
+            var updatedNote = await _noteService.UpdateAsync(id, dto.Note);
 
             if (updatedNote == null)
                 return NotFound();
@@ -69,7 +68,7 @@ namespace NotesService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNote(string id)
         {
-            await _mongoDBService.DeleteAsync(id);
+            await _noteService.DeleteAsync(id);
             return NoContent();
         }
 

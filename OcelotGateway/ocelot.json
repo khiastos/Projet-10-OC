@@ -3,6 +3,7 @@
     // Port AuthService : 5222
     // Port PatientService : 5050
     // Port NoteService : 5241
+    // Port RiskAssessmentService : 5257
 
     "Routes": [
         {
@@ -40,6 +41,18 @@
             ],
             "UpstreamPathTemplate": "/api/notes/{everything}",
             "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/risk-assessment/{patientId}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 5257
+                }
+            ],
+            "UpstreamPathTemplate": "/api/risk-assessment/{patientId}",
+            "UpstreamHttpMethod": [ "GET" ]
         }
     ],
     "GlobalConfiguration": {

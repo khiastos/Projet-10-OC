@@ -3,13 +3,13 @@ using NotesService.Models;
 
 namespace NotesService.Services
 {
-    public class MongoDBService
+    public class NoteService
     {
         // Récupère la collection de notes de patients depuis la base de données MongoDB
         public readonly IMongoCollection<PatientNote> _notes;
 
         // Récupère les infos de la BDD
-        public MongoDBService(IConfiguration config)
+        public NoteService(IConfiguration config)
         {
             MongoClient client = new MongoClient(config["MongoDb:ConnectionURI"]);
             IMongoDatabase database = client.GetDatabase(config["MongoDb:DatabaseName"]);

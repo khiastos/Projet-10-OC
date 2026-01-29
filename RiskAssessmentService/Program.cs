@@ -1,21 +1,31 @@
 using System.Text;
-using Back.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RiskAssessmentService.Clients;
+using RiskAssessmentService.Clients.Interfaces;
+using RiskAssessmentService.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
+// Clients HTTP
+builder.Services.AddScoped<IRiskAssessmentService, RiskAssessmentService.Services.RiskAssessmentService>();
+
+builder.Services.AddHttpClient<IPatientsClient, PatientsClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Services:Patients"]);
+});
+
+builder.Services.AddHttpClient<INotesClient, NotesClient>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Services:Notes"]);
+});
+
 builder.Services.AddOpenApi();
 
-// EF Core SQL Server
-builder.Services.AddDbContext<PatientDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// JWT
+// JWT 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 .AddJwtBearer(opt =>
 {
@@ -39,7 +49,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
