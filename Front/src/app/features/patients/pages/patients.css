@@ -338,3 +338,34 @@ form.patients select:focus {
 .btn:hover {
   background: #e9ecf0;
 }
+
+/* badge de risque */
+.risk-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* niveaux */
+.risk-badge.None {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.risk-badge.Borderline {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.risk-badge.InDanger {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.risk-badge.EarlyOnset {
+  background: #e2d9f3;
+  color: #4b2e83;
+}

@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { NotesService } from '../../notes/services/notes.service';
 import { Note, NoteCreate } from '../../notes/models/notes.model';
 import { FormsModule } from '@angular/forms';
+import { RiskAssessmentResult, RiskAssessmentService } from '../../risk-assessment/services/risk-assessment.service';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class PatientDetailPage implements OnInit {
   editingNoteId: string | null = null;
   // Pour stocker le contenu en cours d'édition
   editingContent = '';
+  risk? : RiskAssessmentResult;
 
 
   constructor(
@@ -34,26 +36,38 @@ export class PatientDetailPage implements OnInit {
     private patientsService: PatientsService,
     private notesService: NotesService,
     private cdr: ChangeDetectorRef,
-    private location: Location
+    private location: Location,
+    private riskService: RiskAssessmentService
   ) {}
 
-  ngOnInit(): void {
-    // Récupérer l'ID du patient depuis les paramètres de la route
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+ngOnInit(): void {
+  // Récupérer l'ID du patient depuis les paramètres de la route
+  const id = Number(this.route.snapshot.paramMap.get('id'));
 
-      this.patientsService.getById(id).subscribe({
-        next: (patient: Patient) => {
-          this.patient = patient;
-          this.patientLoading = false;
+  this.patientsService.getById(id).subscribe({
+    next: (patient: Patient) => {
+      this.patient = patient;
+      this.patientLoading = false;
 
       this.notesService.getByPatientId(id).subscribe({
         next: (notes) => {
           this.notes = notes ?? [];
           this.notesLoading = false;
           this.cdr.detectChanges();
+
+          this.riskService.getRiskAssessment(id.toString()).subscribe({
+            next: (risk) => {
+              this.risk = risk;
+              this.cdr.detectChanges();
+            },
+            error: () => {
+              this.notes = [];
+              this.notesLoading = false;
+              this.cdr.detectChanges();
+            }
+          });
         },
         error: () => {
-          this.notes = [];
           this.notesLoading = false;
           this.cdr.detectChanges();
         }

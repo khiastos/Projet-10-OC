@@ -12,6 +12,12 @@
     </span>
   </h2>
 
+  @if (risk) {
+    <div class= "risk-badge" [ngClass]="risk.riskLevel">
+      Risque de diabète : {{ risk.riskLevel }}
+    </div>
+  }
+
   <div class="patient-layout">
 
     <!-- COLONNE GAUCHE : PATIENT -->
