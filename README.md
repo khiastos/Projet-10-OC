@@ -1,7 +1,9 @@
 # Projet 10 : Développez une solution en microservices pour votre client
 
 Ce dernier projet de ma formation avait pour objectif de mettre en pratique l’ensemble des notions abordées au cours des derniers mois, tout en intégrant de nouvelles technologies.
+
 L’application développée vise à aider des médecins à détecter le diabète de type 2, en leur permettant de gérer les informations patients ainsi que des notes médicales associées.
+
 ---
 ## Outils et technologies utilisés
 
@@ -23,10 +25,10 @@ L’application développée vise à aider des médecins à détecter le diabèt
 
 Le projet est structuré autour de 5 microservices, chacun exposant une API REST avec des responsabilités bien définies.
 Chaque microservice est organisé selon une architecture claire, comprenant :
-- des services (via interfaces),
-- des contrôleurs pour la gestion du CRUD,
-- des modèles (POCO et DTO),
-- des clients (HTTP Clients) et utilitaires (JWT, IdentitySeeder) lorsque nécessaire.
+- Des services (via interfaces),
+- Des contrôleurs pour la gestion du CRUD,
+- Des modèles (POCO et DTO),
+- Des clients (HTTP Clients) et utilitaires (JWT, IdentitySeeder) lorsque nécessaire.
 
 Cette séparation des responsabilités s’inscrit dans une démarche visant à garantir une application propre, maintenable et scalable.
 
@@ -87,3 +89,29 @@ J’ai structuré l’application selon un modèle feature-based, avec une sépa
 
 1. `git clone https://github.com/khiastos/Projet-10-OC.git`  
 2. Ouvrir la solution dans Visual Studio  
+
+
+---
+# Les enjeux du Green Code
+
+*Pour la fin de ce projet, il était demandé de faire une partie dans le README concernant le Green Code, ses enjeux, son utilité et sa mise en place.*
+
+Le Green Code regroupe un ensemble de bonnes pratiques visant à réduire l’impact environnemental des applications logicielles, notamment en limitant leur consommation de ressources (CPU, mémoire, réseau, stockage) et donc leur consommation énergétique.
+
+---
+## Objectifs du Green Code
+
+L’objectif principal du Green Code est de concevoir des applications :
+- Plus sobres en ressources (CPU, mémoire, disque, réseau)
+- Plus performantes, en évitant les traitements inutiles
+- Plus durables, en réduisant leur empreinte carbone sur le long terme
+- Plus scalables, sans gaspillage de ressources lors des montées en charge
+
+---
+## Comment intégrer cette optique à un projet
+
+Cette démarche s'applique à plusieurs niveaux :
+- __Réduction des traitements inutiles :__ réaliser uniquement les calculs nécessaires, charger les données réellement utilisées, éviter les opérations répétées
+- __Optimisation des échanges et des accès aux données :__ limiter le nombre d'appels entre services et réduire la taille des données échangées (avec des DTO par exemple)
+- __Gestion raisonnée des ressources :__ libérer correctement les ressources utilisées, éviter de conserver des objets en mémoire inutilement
+- __Sobriété du front-end :__ éviter les rafraîchissement inutiles de l'interface et les appels excessifs à l'API
