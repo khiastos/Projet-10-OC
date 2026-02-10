@@ -1,4 +1,5 @@
-﻿using RiskAssessmentService.Clients.Interfaces;
+﻿using System.Net.Http.Headers;
+using RiskAssessmentService.Clients.Interfaces;
 using RiskAssessmentService.Models.DTOs;
 
 namespace RiskAssessmentService.Clients
@@ -12,10 +13,12 @@ namespace RiskAssessmentService.Clients
             _httpClient = httpClient;
         }
 
-        public async Task<PatientDTO> GetPatientByIdAsync(string patientId)
+        public async Task<PatientDTO> GetPatientByIdAsync(string patientId, string bearerToken)
         {
-            var response = await _httpClient.GetAsync($"/api/patients/{patientId}");
+            _httpClient.DefaultRequestHeaders.Authorization =
+               new AuthenticationHeaderValue("Bearer", bearerToken.Replace("Bearer ", ""));
 
+            var response = await _httpClient.GetAsync($"/api/patients/{patientId}");
             response.EnsureSuccessStatusCode();
 
             var patient = await response.Content.ReadFromJsonAsync<PatientDTO>();

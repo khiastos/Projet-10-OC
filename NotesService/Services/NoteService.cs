@@ -15,12 +15,6 @@ namespace NotesService.Services
             IMongoDatabase database = client.GetDatabase(config["MongoDb:DatabaseName"]);
             _notes = database.GetCollection<PatientNote>("notes");
         }
-        public async Task<PatientNote?> GetByIdAsync(string id)
-        {
-            return await _notes
-                .Find(n => n.Id == id)
-                .FirstOrDefaultAsync();
-        }
 
         public async Task<List<PatientNote>> GetByPatientIdAsync(int patientId)
         {

@@ -4,6 +4,6 @@ namespace RiskAssessmentService.Clients.Interfaces
 {
     public interface INotesClient
     {
-        Task<IEnumerable<NoteDTO>> GetNotesByPatientIdAsync(string patientId);
+        Task<IEnumerable<NoteDTO>> GetNotesByPatientIdAsync(string patientId, string bearerToken);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NotesService.Models;
 using NotesService.Models.DTOs;
 using NotesService.Services;
@@ -7,7 +8,7 @@ namespace NotesService.Controllers
 {
     [Route("api/[controller]")]
     [Controller]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class NotesController : ControllerBase
     {
@@ -15,15 +16,6 @@ namespace NotesService.Controllers
         public NotesController(NoteService noteService)
         {
             _noteService = noteService;
-        }
-
-        // GET : api/notes/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<PatientNote>> GetNoteById(string id)
-        {
-            var note = await _noteService.GetByIdAsync(id);
-            if (note == null) return NotFound();
-            return Ok(note);
         }
 
         // GET : api/notes/patient/{id}
@@ -46,7 +38,7 @@ namespace NotesService.Controllers
 
             await _noteService.CreateAsync(note);
 
-            return CreatedAtAction(nameof(GetNoteById), new { id = note.Id }, note);
+            return Ok(note);
         }
 
         // PUT : api/notes/{id}

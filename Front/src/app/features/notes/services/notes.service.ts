@@ -8,10 +8,6 @@ export class NotesService {
   private apiUrl = '/api/notes';
   constructor(private http: HttpClient) {}
 
-    getById(id: string) {
-    return this.http.get<Note>(`${this.apiUrl}/${id}`);
-    }
-
     getByPatientId(patientId: number) {
     return this.http.get<Note[]>(`${this.apiUrl}/patient/${patientId}`);
     }

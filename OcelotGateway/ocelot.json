@@ -5,57 +5,82 @@
     // Port NoteService : 5241
     // Port RiskAssessmentService : 5257
 
-    "Routes": [
-        {
-            "DownstreamPathTemplate": "/api/patients/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5050
+        "Routes": [
+            {
+                "DownstreamPathTemplate": "/api/auth/{everything}",
+                "DownstreamScheme": "http",
+                "DownstreamHostAndPorts": [
+                    {
+                        "Host": "localhost",
+                        "Port": 5222
+                    }
+                ],
+                "UpstreamPathTemplate": "/api/auth/{everything}",
+                "UpstreamHttpMethod": [ "POST", "GET" ]
+            },
+
+            {
+                "DownstreamPathTemplate": "/api/patients/{everything}",
+                "DownstreamScheme": "http",
+                "DownstreamHostAndPorts": [
+                    {
+                        "Host": "localhost",
+                        "Port": 5050
+                    }
+                ],
+                "UpstreamPathTemplate": "/api/patients/{everything}",
+                "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+
+                "AuthenticationOptions": {
+                    "AuthenticationProviderKey": "Bearer"
+                },
+                "RouteClaimsRequirement": {
+                    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
                 }
-            ],
-            "UpstreamPathTemplate": "/api/patients/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/auth/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5222
+            },
+
+            {
+                "DownstreamPathTemplate": "/api/notes/{everything}",
+                "DownstreamScheme": "http",
+                "DownstreamHostAndPorts": [
+                    {
+                        "Host": "localhost",
+                        "Port": 5241
+                    }
+                ],
+                "UpstreamPathTemplate": "/api/notes/{everything}",
+                "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+
+                "AuthenticationOptions": {
+                    "AuthenticationProviderKey": "Bearer"
+                },
+                "RouteClaimsRequirement": {
+                    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
                 }
-            ],
-            "UpstreamPathTemplate": "/api/auth/{everything}",
-            "UpstreamHttpMethod": [ "POST", "GET" ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/notes/{everything}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5241
+            },
+
+            {
+                "DownstreamPathTemplate": "/api/risk-assessment/{patientId}",
+                "DownstreamScheme": "http",
+                "DownstreamHostAndPorts": [
+                    {
+                        "Host": "localhost",
+                        "Port": 5257
+                    }
+                ],
+                "UpstreamPathTemplate": "/api/risk-assessment/{patientId}",
+                "UpstreamHttpMethod": [ "GET" ],
+
+                "AuthenticationOptions": {
+                    "AuthenticationProviderKey": "Bearer"
+                },
+                "RouteClaimsRequirement": {
+                    "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": "Admin"
                 }
-            ],
-            "UpstreamPathTemplate": "/api/notes/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/risk-assessment/{patientId}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "localhost",
-                    "Port": 5257
-                }
-            ],
-            "UpstreamPathTemplate": "/api/risk-assessment/{patientId}",
-            "UpstreamHttpMethod": [ "GET" ]
+            }
+        ],
+
+        "GlobalConfiguration": {
+            "BaseUrl": "http://localhost:5148"
         }
-    ],
-    "GlobalConfiguration": {
-        "BaseUrl": "http://localhost:5148"
     }
-}

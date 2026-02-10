@@ -1,3 +1,5 @@
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 
@@ -19,12 +21,44 @@ builder.Services.AddCors(options =>
         });
 });
 
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+    throw new Exception("JWT KEY IS MISSING IN OCELOT");
+
+builder.Services
+    .AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.RequireHttpsMetadata = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = "Medilabo",
+
+            ValidateAudience = true,
+            ValidAudience = "MedilaboClient",
+
+            ValidateLifetime = true,
+
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+
+            RoleClaimType =
+                "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        };
+    });
+
+
 builder.Services.AddOcelot();
 
 var app = builder.Build();
 
 app.UseCors("AllowAngular");
 
-await app.UseOcelot();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseOcelot().Wait();
 
 app.Run();
