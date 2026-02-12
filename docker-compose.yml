@@ -1,0 +1,139 @@
+services:
+
+  # AuthService
+  authservice:
+    build:
+      context: ./AuthService
+      dockerfile: Dockerfile
+    container_name: medilabo-authservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserverauth;Database=AuthDb;User Id=sa;Password=Medilabo2026!;TrustServerCertificate=True
+      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Issuer=MediLabo.Auth
+      - Jwt__Audience=MediLabo.Client
+      - AdminSettings__Email=admin@gmail.com
+      - AdminSettings__Password=Password123!
+
+    depends_on:
+      - sqlserverauth
+    restart: on-failure
+    networks:
+      - medilabo-network
+  # BDD de AuthService
+  sqlserverauth:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: medilabo-sqlserverauth
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Medilabo2026!
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - medilabo-network
+
+  # NotesService
+  notesservice:
+    build:
+      context: ./NotesService
+      dockerfile: Dockerfile
+    container_name: medilabo-notesservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - Mongo__ConnectionURI=mongodb://mongodb:27017
+      - Mongo__DatabaseName=NotesDb
+      - Mongo__CollectionName=Notes
+      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Issuer=MediLabo.Auth
+      - Jwt__Audience=MediLabo.Client
+    depends_on:
+        - mongodb
+    restart: on-failure
+    networks:
+      - medilabo-network
+  # MongoDB
+  mongodb:
+    image: mongo:7.0
+    container_name: medilabo-mongodb
+    volumes:
+    - mongodb-data:/data/db
+    networks:
+      - medilabo-network
+
+  # Ocelot Gateway
+  ocelotgateway:
+    build:
+      context: ./OcelotGateway
+      dockerfile: Dockerfile
+    container_name: medilabo-ocelotgateway
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Issuer=MediLabo.Auth
+      - Jwt__Audience=MediLabo.Client
+    depends_on:
+      - authservice
+      - notesservice
+      - patientsservice
+      - riskassessmentservice
+    restart: on-failure
+    networks:
+      - medilabo-network
+
+  # PatientsService
+  patientsservice:
+    build:
+      context: ./PatientsService
+      dockerfile: Dockerfile
+    container_name: medilabo-patientsservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserverpatients;Database=PatientsDb;User Id=sa;Password=Medilabo2026!;TrustServerCertificate=True
+      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Issuer=MediLabo.Auth
+      - Jwt__Audience=MediLabo.Client
+    depends_on:
+      - sqlserverpatients
+    restart: on-failure
+    networks:
+      - medilabo-network
+  # BDD de PatiensService
+  sqlserverpatients:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: medilabo-sqlserverpatients
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Medilabo2026!
+    volumes:
+      - sqlserverpatients-data:/var/opt/mssql
+    networks:
+      - medilabo-network
+
+  # RiskAssessmentService
+  riskassessmentservice:
+    build:
+      context: ./RiskAssessmentService
+      dockerfile: Dockerfile
+    container_name: medilabo-riskassessmentservice
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Issuer=MediLabo.Auth
+      - Jwt__Audience=MediLabo.Client
+    depends_on:
+      - notesservice
+      - patientsservice
+    restart: on-failure
+    networks:
+      - medilabo-network
+
+networks:
+  medilabo-network:
+
+volumes:
+  sqlserver-data:
+  mongodb-data:
+  sqlserverpatients-data:
+

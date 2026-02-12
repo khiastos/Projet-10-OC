@@ -9,22 +9,21 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 builder.Services.AddControllers();
+
 // Clients HTTP
 builder.Services.AddScoped<IRiskAssessmentService, RiskAssessmentService.Services.RiskAssessmentService>();
 
 builder.Services.AddHttpClient<IPatientsClient, PatientsClient>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Services:Patients"]);
+    client.BaseAddress = new Uri(builder.Configuration["Services:PatientsService"]!);
 });
 
 builder.Services.AddHttpClient<INotesClient, NotesClient>(client =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["Services:Notes"]);
+    client.BaseAddress = new Uri(builder.Configuration["Services:NotesService"]!);
 });
 
 builder.Services.AddOpenApi();
-
-
 
 // JWT 
 builder.Services
@@ -43,7 +42,7 @@ builder.Services
 
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
             ),
 
             RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"

@@ -59,9 +59,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Créer la base de données si elle n'existe pas (utile pour docker)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+    db.Database.EnsureCreated();
+}
+
 // Seed les rôles et l'admin au démarrage
 using (var scope = app.Services.CreateScope())
 {
     await IdentitySeeder.SeedAsync(scope.ServiceProvider, app.Configuration);
 }
+
 app.Run();

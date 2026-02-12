@@ -6,8 +6,8 @@ using Ocelot.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
-    .SetBasePath(builder.Environment.ContentRootPath)
-    .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
+    .AddJsonFile("ocelot.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"ocelot.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
 builder.Services.AddCors(options =>
 {
@@ -21,29 +21,25 @@ builder.Services.AddCors(options =>
         });
 });
 
-var jwtKey = builder.Configuration["Jwt:Key"];
-if (string.IsNullOrEmpty(jwtKey))
-    throw new Exception("JWT KEY IS MISSING IN OCELOT");
-
+// JWT
 builder.Services
     .AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
-        options.RequireHttpsMetadata = false;
-
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = "Medilabo",
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
 
             ValidateAudience = true,
-            ValidAudience = "MedilaboClient",
+            ValidAudience = builder.Configuration["Jwt:Audience"],
 
             ValidateLifetime = true,
 
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+            ),
 
             RoleClaimType =
                 "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"

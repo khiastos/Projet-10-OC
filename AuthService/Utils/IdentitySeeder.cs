@@ -17,8 +17,9 @@ public static class IdentitySeeder
             }
         }
 
-        // Passe le compte admin en "Admin"
+        // Création / mise à jour du compte Admin
         var adminEmail = config["AdminSettings:Email"];
+
         if (!string.IsNullOrEmpty(adminEmail))
         {
             var admin = await userManager.FindByEmailAsync(adminEmail);
@@ -27,6 +28,7 @@ public static class IdentitySeeder
                 await userManager.AddToRoleAsync(admin, "Admin");
             }
         }
+
 
         // Ajoute "User" à tous les comptes
         foreach (var user in userManager.Users.ToList())

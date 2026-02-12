@@ -13,7 +13,10 @@ builder.Services.AddOpenApi();
 
 // EF Core SQL Server
 builder.Services.AddDbContext<PatientDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()
+        ));
 
 // JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -32,6 +35,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 var app = builder.Build();
 
+
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -43,5 +48,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Créer la base de données si elle n'existe pas (utile pour docker)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<PatientDbContext>();
+    db.Database.EnsureCreated();
+}
 
 app.Run();

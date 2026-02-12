@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 using NotesService.Models;
 
 namespace NotesService.Services
@@ -9,11 +10,13 @@ namespace NotesService.Services
         public readonly IMongoCollection<PatientNote> _notes;
 
         // Récupère les infos de la BDD
-        public NoteService(IConfiguration config)
+        public NoteService(IOptions<MongoDBSettings> mongoSettings)
         {
-            MongoClient client = new MongoClient(config["MongoDb:ConnectionURI"]);
-            IMongoDatabase database = client.GetDatabase(config["MongoDb:DatabaseName"]);
-            _notes = database.GetCollection<PatientNote>("notes");
+            var settings = mongoSettings.Value;
+
+            var client = new MongoClient(settings.ConnectionURI);
+            var database = client.GetDatabase(settings.DatabaseName);
+            _notes = database.GetCollection<PatientNote>(settings.CollectionName);
         }
 
         public async Task<List<PatientNote>> GetByPatientIdAsync(int patientId)
