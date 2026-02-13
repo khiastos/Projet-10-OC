@@ -8,12 +8,13 @@ import { NotesService } from '../../notes/services/notes.service';
 import { Note, NoteCreate } from '../../notes/models/notes.model';
 import { FormsModule } from '@angular/forms';
 import { RiskAssessmentResult, RiskAssessmentService } from '../../risk-assessment/services/risk-assessment.service';
+import { RiskTranslationPipe } from '../../risk-assessment/pipes/risk-translation.pipe';
 
 
 @Component({
   standalone: true,
   selector: 'app-patient-detail',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RiskTranslationPipe],
   templateUrl: './patient-detail.page.html',
   styleUrls: ['./patients.css']
 })

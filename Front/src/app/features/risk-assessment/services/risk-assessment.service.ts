@@ -6,7 +6,7 @@ export interface RiskAssessmentResult {
     age : number;
     sex : string;
     triggerTermsCount : number;
-    riskLevel : 'None' | 'Borderline' | 'In Danger' | 'Early Onset';
+    riskLevel : 'None' | 'Borderline' | 'InDanger' | 'EarlyOnset';
 }
 
 @Injectable({

@@ -1,9 +1,6 @@
 {
     "Routes": [
         {
-            "UpstreamPathTemplate": "/api/auth/{everything}",
-            "UpstreamHttpMethod": [ "POST", "GET" ],
-
             "DownstreamPathTemplate": "/api/auth/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -11,13 +8,13 @@
                     "Host": "authservice",
                     "Port": 8080
                 }
-            ]
+            ],
+            "UpstreamPathTemplate": "/api/auth/{everything}",
+            "UpstreamHttpMethod": [ "POST", "GET" ]
+
         },
 
         {
-            "UpstreamPathTemplate": "/api/patients/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-
             "DownstreamPathTemplate": "/api/patients/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -26,6 +23,9 @@
                     "Port": 8080
                 }
             ],
+            "UpstreamPathTemplate": "/api/patients/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+
 
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "Bearer"
@@ -36,9 +36,6 @@
         },
 
         {
-            "UpstreamPathTemplate": "/api/notes/{everything}",
-            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
-
             "DownstreamPathTemplate": "/api/notes/{everything}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -47,6 +44,9 @@
                     "Port": 8080
                 }
             ],
+            "UpstreamPathTemplate": "/api/notes/{everything}",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+
 
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "Bearer"
@@ -57,9 +57,6 @@
         },
 
         {
-            "UpstreamPathTemplate": "/api/risk-assessment/{patientId}",
-            "UpstreamHttpMethod": [ "GET" ],
-
             "DownstreamPathTemplate": "/api/risk-assessment/{patientId}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
@@ -68,6 +65,9 @@
                     "Port": 8080
                 }
             ],
+            "UpstreamPathTemplate": "/api/risk-assessment/{patientId}",
+            "UpstreamHttpMethod": [ "GET" ],
+
 
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "Bearer"

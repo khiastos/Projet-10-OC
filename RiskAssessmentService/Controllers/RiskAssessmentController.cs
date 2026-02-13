@@ -29,7 +29,6 @@ namespace RiskAssessmentService.Controllers
 
             var token = HttpContext.Request.Headers["Authorization"].ToString();
 
-            // 
             var patient = await _patientsClient.GetPatientByIdAsync(patientId, token);
             var notes = await _notesClient.GetNotesByPatientIdAsync(patientId, token);
 

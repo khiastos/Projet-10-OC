@@ -14,7 +14,7 @@
 
   @if (risk) {
     <div class= "risk-badge" [ngClass]="risk.riskLevel">
-      Risque de diabète : {{ risk.riskLevel }}
+      Risque de diabète : {{ risk.riskLevel | riskTranslation }}
     </div>
   }
 
