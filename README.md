@@ -64,7 +64,9 @@ Les principaux mécanismes mis en place sont :
 ---
 ## Utilisation de docker
 
-// à remplir
+Le projet est contenairisé grâce à un Dockerfile présent dans chaque des microservices, permettant d'en créer une image pour chaque, et également grâce à un docker-compose.yml qui permet d'orchestrer le tout.
+
+Cela permet notamment que le projet soit lancé sur n'importe quelle machine, sans avoir besoin d'installer les packages, MongoDB, SQL Server,...
 
 ---
 ## Utilisation d'Ocelot Gateway
@@ -88,7 +90,9 @@ J’ai structuré l’application selon un modèle feature-based, avec une sépa
 ## Installation  
 
 1. `git clone https://github.com/khiastos/Projet-10-OC.git`  
-2. Ouvrir la solution dans Visual Studio  
+2. Ouvrir la solution dans Visual Studio
+3. Pour avoir le front, il faut lancer l'application via Visual Studio et connecter le front avec VS Code avec `ng serve --proxy-config srx/proxy.conf.json` dans le terminal
+4. Sinon pour avoir accès uniquement au back, il suffit de taper dans un terminal à la racine du projet `docker compose up --build`
 
 
 ---
