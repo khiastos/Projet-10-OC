@@ -1,6 +1,6 @@
 <h2>Ajouter un patient</h2>
 
-<!--permet de désactivé le bouton save quand les champs required ne sont pas remplis-->
+<!--permet de désactiver le bouton save quand les champs required ne sont pas remplis-->
 <form #f="ngForm" (ngSubmit)="save()" class="patients">
 <!--[(ngModel)] liens de données bidirectionnels pour chaque champ du formulaire-->
 <p class="form-hint">
@@ -59,7 +59,7 @@
   />
 
 <div class="actions">
-  <button class="btn" (click)="goBack()">← Retour</button>
+  <button type="button" class="btn" (click)="goBack()">← Retour</button>
   <button class="btn" type="submit" [disabled]="f.invalid">Enregistrer</button>
 </div>
 

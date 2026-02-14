@@ -8,13 +8,12 @@ services:
     container_name: medilabo-authservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserverauth;Database=AuthDb;User Id=sa;Password=Medilabo2026!;TrustServerCertificate=True
-      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - ConnectionStrings__DefaultConnection=Server=sqlserverauth;Database=AuthDb;User Id=sa;Password=${DB_AUTH_PASSWORD};TrustServerCertificate=True
+      - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=MediLabo.Auth
       - Jwt__Audience=MediLabo.Client
-      - AdminSettings__Email=admin@gmail.com
-      - AdminSettings__Password=Password123!
-
+      - AdminSettings__Email=${ADMIN_EMAIL}
+      - AdminSettings__Password=${ADMIN_PASSWORD}
     depends_on:
       - sqlserverauth
     restart: on-failure
@@ -26,7 +25,7 @@ services:
     container_name: medilabo-sqlserverauth
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Medilabo2026!
+      - SA_PASSWORD=${DB_AUTH_PASSWORD}
     volumes:
       - sqlserver-data:/var/opt/mssql
     networks:
@@ -41,9 +40,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - Mongo__ConnectionURI=mongodb://mongodb:27017
-      - Mongo__DatabaseName=NotesDb
-      - Mongo__CollectionName=Notes
-      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Mongo__DatabaseName=${MONGO_DB_NAME}
+      - Mongo__CollectionName=${MONGO_COLLECTION_NAME}
+      - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=MediLabo.Auth
       - Jwt__Audience=MediLabo.Client
     depends_on:
@@ -70,7 +69,7 @@ services:
       - "5000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=MediLabo.Auth
       - Jwt__Audience=MediLabo.Client
     depends_on:
@@ -90,8 +89,8 @@ services:
     container_name: medilabo-patientsservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserverpatients;Database=PatientsDb;User Id=sa;Password=Medilabo2026!;TrustServerCertificate=True
-      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - ConnectionStrings__DefaultConnection=Server=sqlserverpatients;Database=PatientsDb;User Id=sa;Password=${DB_PATIENTS_PASSWORD};TrustServerCertificate=True
+      - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=MediLabo.Auth
       - Jwt__Audience=MediLabo.Client
     depends_on:
@@ -105,7 +104,7 @@ services:
     container_name: medilabo-sqlserverpatients
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Medilabo2026!
+      - SA_PASSWORD=${DB_PATIENTS_PASSWORD}
     volumes:
       - sqlserverpatients-data:/var/opt/mssql
     networks:
@@ -119,7 +118,7 @@ services:
     container_name: medilabo-riskassessmentservice
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
-      - Jwt__Key=oVnY7z1ZpT9uLk3qM8aXc5sW4fR2gB6hJ0kN2vP1yQ8tE3rU5iZ7wX9cV4bR6dF8
+      - Jwt__Key=${JWT_KEY}
       - Jwt__Issuer=MediLabo.Auth
       - Jwt__Audience=MediLabo.Client
     depends_on:
